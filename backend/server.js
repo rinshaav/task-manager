@@ -16,7 +16,7 @@ connectDB();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://task-manager-gamma-one-67.vercel.app",
     credentials: true,
   })
 );
