@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import API_URL from "../api";
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -11,7 +12,7 @@ function Profile() {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/users/profile",
+          `${API_URL}/api/users/profile`,
           { withCredentials: true }
         );
 
@@ -32,7 +33,7 @@ function Profile() {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/users/logout",
+        `${API_URL}/api/users/logout`,
         {},
         { withCredentials: true }
       );

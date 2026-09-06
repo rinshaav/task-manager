@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import API_URL from "../api";
 
 function Dashboard() {
   const [tasks, setTasks] = useState([]);
@@ -19,10 +20,11 @@ function Dashboard() {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
+
   const fetchTasks = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/tasks",
+        `${API_URL}/api/tasks`,
         { withCredentials: true }
       );
 
@@ -55,7 +57,7 @@ function Dashboard() {
     try {
       if (editingTaskId) {
         const response = await axios.put(
-          `http://localhost:5000/api/tasks/${editingTaskId}`,
+          `${API_URL}/api/tasks/${editingTaskId}`,
           formData,
           { withCredentials: true }
         );
@@ -71,7 +73,7 @@ function Dashboard() {
         setEditingTaskId(null);
       } else {
         const response = await axios.post(
-          "http://localhost:5000/api/tasks",
+          `${API_URL}/api/tasks`,
           formData,
           { withCredentials: true }
         );
@@ -108,7 +110,7 @@ function Dashboard() {
 
     try {
       await axios.delete(
-        `http://localhost:5000/api/tasks/${id}`,
+        `${API_URL}/api/tasks/${id}`,
         { withCredentials: true }
       );
 
@@ -182,7 +184,7 @@ function Dashboard() {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/users/logout",
+        `${API_URL}/api/users/logout`,
         {},
         { withCredentials: true }
       );
@@ -231,14 +233,16 @@ function Dashboard() {
   ).length;
 
   const filteredTasks = tasks.filter((task) => {
-  const matchesFilter = filter === "All" || task.status === filter;
+    const matchesFilter =
+      filter === "All" || task.status === filter;
 
-  const searchText = search.toLowerCase();
+    const searchText = search.toLowerCase();
 
-  const matchesSearch = task.title.toLowerCase().includes(searchText) ||
-    (task.description || "")
-      .toLowerCase()
-      .includes(searchText);
+    const matchesSearch =
+      task.title.toLowerCase().includes(searchText) ||
+      (task.description || "")
+        .toLowerCase()
+        .includes(searchText);
 
     return matchesFilter && matchesSearch;
   });
@@ -291,7 +295,6 @@ function Dashboard() {
         {/* Header */}
         <header className="page-header">
           <div>
-          
             <h1>My Tasks</h1>
 
             <p className="page-subtitle">
@@ -541,7 +544,8 @@ function Dashboard() {
               <span>
                 {filteredTasks.length} tasks
               </span>
-            </div> 
+            </div>
+
             <div className="task-search">
               <span>⌕</span>
 
@@ -549,9 +553,12 @@ function Dashboard() {
                 type="text"
                 placeholder="Search tasks..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
               />
             </div>
+
             <div className="task-filters">
               {[
                 "All",
@@ -636,7 +643,6 @@ function Dashboard() {
                 )}
 
                 <div className="task-meta">
-
                   {task.dueDate && (
                     <span>
                       Due{" "}
@@ -645,7 +651,6 @@ function Dashboard() {
                       ).toLocaleDateString()}
                     </span>
                   )}
-
                 </div>
 
                 <div className="task-actions">

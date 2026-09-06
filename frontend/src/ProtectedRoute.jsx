@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_URL from "./api";;
 
 function ProtectedRoute({ children }) {
   const [loading, setLoading] = useState(true);
@@ -10,7 +11,7 @@ function ProtectedRoute({ children }) {
     const checkAuth = async () => {
       try {
         await axios.get(
-          "http://localhost:5000/api/tasks",
+          `${API_URL}/api/tasks`,
           {
             withCredentials: true,
           }
